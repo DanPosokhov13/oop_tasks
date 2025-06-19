@@ -16,7 +16,25 @@ class Student:
                 lecturer.grades[course] = [grade]
         else:
             return 'Ошибка'
+    @classmethod
+    def check_grades(cls, other):
+        if not isinstance(other, Student):
+            return f'{other} не существует'
+        return other.for_average_grade()
         
+    
+    def __lt__(self, other):
+        oth = self.check_grades(other)
+        return self.for_average_grade() < oth
+    
+    def __eq__(self, other):
+        oth = self.check_grades(other)
+        return self.for_average_grade() == oth
+    
+    def __gt__(self, other):
+        oth = self.check_grades(other)
+        return self.for_average_grade() > oth
+    
     def __str__(self):
         self.all_grades = [self.grade for self.grades_list in self.grades.values() for self.grade in self.grades_list]
         self.average = sum(self.all_grades) / len(self.all_grades) if self.all_grades else 0
@@ -37,6 +55,24 @@ class Lecturer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
         self.grades = {}
+    
+    @classmethod
+    def check_grades(cls, other):
+        if not isinstance(other, Lecturer):
+            return f'{other} не существует'
+        return other.for_average_grade()       
+    
+    def __lt__(self, other):
+        oth = self.check_grades(other)
+        return self.for_average_grade() < oth
+    
+    def __eq__(self, other):
+        oth = self.check_grades(other)
+        return self.for_average_grade() == oth
+    
+    def __gt__(self, other):
+        oth = self.check_grades(other)
+        return self.for_average_grade() > oth
 
     def __str__(self):
         self.all_grades = [self.grade for self.grades_list in self.grades.values() for self.grade in self.grades_list]
